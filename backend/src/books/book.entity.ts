@@ -11,26 +11,26 @@ export class Book {
   @Column({ nullable: true })
   description?: string;
 
-  @Column()
-  authors: string;
+  @Column({ nullable: true })
+  authors?: string;
 
   @Column({ nullable: true })
   edition?: string;
 
   @Column({ nullable: true })
-  format: string;
+  format?: string;
 
-  @Column()
-  pages: string;
+  @Column({ nullable: true, type: 'integer' })
+  pages?: number;
 
-  @Column()
-  rating: string;
+  @Column({ nullable: true, type: 'decimal' })
+  rating?: number;
 
-  @Column()
-  ratingCount: string;
+  @Column({ nullable: true, type: 'integer' })
+  ratingCount?: number;
 
-  @Column()
-  reviewCount: string;
+  @Column({ nullable: true, type: 'integer' })
+  reviewCount?: number;
 
   @Column({ nullable: true })
   genres?: string;
@@ -38,9 +38,9 @@ export class Book {
   @Column({ nullable: true })
   imageUrl?: string;
 
-  @Column()
-  publicationDate: string;
+  @Column({ nullable: true, type: 'date' })
+  publicationDate?: Date;
 
-  @Column()
-  publisher: string;
+  @Column({ nullable: true })
+  publisher?: string;
 }

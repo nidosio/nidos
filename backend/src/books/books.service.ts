@@ -1,12 +1,14 @@
 import { Injectable, HttpService } from '@nestjs/common';
-import { Readable } from 'stream';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as Papa from 'papaparse';
+import { Readable } from 'stream';
+import { validate, ValidationError } from 'class-validator';
 
 import { BookQueryResponse } from './books';
 import { Book as BookType } from '../../../interfaces/books';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './book.entity';
-import { Repository } from 'typeorm';
+import { BookDto } from './book.dto';
 
 /** https://stackoverflow.com/a/54136803 */
 const bufferToStream = (buffer: Buffer): Readable => {
@@ -18,6 +20,31 @@ const bufferToStream = (buffer: Buffer): Readable => {
   });
 
   return readableStream;
+};
+
+const validateBooks = async (
+  books: BookDto[],
+): Promise<{
+  books: BookDto[];
+  errors: Record<string, ValidationError[]>;
+}> => {
+  const allErrors: Record<string, ValidationError[]> = {};
+
+  const validatedBooks = (
+    await Promise.all(
+      books.map(async book => {
+        const errors = await validate(book);
+        if (errors.length > 0) {
+          allErrors[book.isbn] = errors;
+          return undefined;
+        } else {
+          return book;
+        }
+      }),
+    )
+  ).filter(book => book !== undefined);
+
+  return { books: validatedBooks, errors: allErrors };
 };
 
 @Injectable()
@@ -43,10 +70,17 @@ export class BooksService {
     const stream = bufferToStream(file.buffer);
     Papa.parse(stream, {
       header: true,
-      complete: result => {
-        result.data.forEach(book => {
-          this.booksRepository.save(book);
-        });
+      skipEmptyLines: 'greedy',
+      complete: async result => {
+        const books = result.data.map(book => new BookDto(book));
+        console.log('books.length', books.length);
+
+        const { books: validatedBooks, errors } = await validateBooks(books);
+
+        console.log('validatedBooks.length', validatedBooks.length);
+        console.log('errors.length', Object.keys(errors).length);
+
+        await this.booksRepository.save(validatedBooks, { chunk: 1000 });
       },
     });
   }
