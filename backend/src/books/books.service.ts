@@ -5,7 +5,7 @@ import * as Papa from 'papaparse';
 import { Readable } from 'stream';
 import { validate, ValidationError } from 'class-validator';
 
-import { BookQueryResponse } from './books';
+import { BookQueryResponse, BookUploadResult } from './books';
 import { Book as BookType } from '../../../interfaces/books';
 import { Book } from './book.entity';
 import { BookDto } from './book.dto';
@@ -66,17 +66,29 @@ export class BooksService {
     }));
   }
 
-  uploadBooks(file: { buffer: Buffer }): void {
+  async uploadBooks(file: { buffer: Buffer }): Promise<BookUploadResult> {
     const stream = bufferToStream(file.buffer);
-    Papa.parse(stream, {
-      header: true,
-      skipEmptyLines: 'greedy',
-      complete: async result => {
-        const books = result.data.map(book => new BookDto(book));
-        const { books: validatedBooks, errors } = await validateBooks(books);
-        console.error(errors);
-        await this.booksRepository.save(validatedBooks, { chunk: 1000 });
-      },
+    return new Promise(async (resolve, reject) => {
+      Papa.parse(stream, {
+        header: true,
+        skipEmptyLines: 'greedy',
+        complete: async result => {
+          try {
+            const books = result.data.map(book => new BookDto(book));
+            const { books: validatedBooks, errors } = await validateBooks(
+              books,
+            );
+            await this.booksRepository.save(validatedBooks, { chunk: 1000 });
+            resolve({
+              booksToUpload: books.length,
+              booksUploaded: validatedBooks.length,
+              errors,
+            });
+          } catch (e) {
+            reject(e);
+          }
+        },
+      });
     });
   }
 }

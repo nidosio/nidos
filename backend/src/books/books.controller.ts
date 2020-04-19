@@ -10,6 +10,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { Book as BookType } from '../../../interfaces/books';
 import { BooksService } from './books.service';
+import { BookUploadResult } from './books';
 
 @Controller('books')
 export class BooksController {
@@ -22,7 +23,9 @@ export class BooksController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: { buffer: Buffer }): void {
+  uploadFile(
+    @UploadedFile() file: { buffer: Buffer },
+  ): Promise<BookUploadResult> {
     return this.booksService.uploadBooks(file);
   }
 }

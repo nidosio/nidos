@@ -1,6 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HttpModule } from '@nestjs/common';
-
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 
@@ -9,22 +6,19 @@ describe('Books Controller', () => {
   let bookService: BooksService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [BooksController],
-      imports: [HttpModule],
-      providers: [BooksService],
-    }).compile();
-
-    bookService = module.get<BooksService>(BooksService);
-    controller = module.get<BooksController>(BooksController);
-
-    jest
-      .spyOn(bookService, 'getBooks')
-      .mockReturnValue(
-        new Promise(resolve =>
-          resolve([{ authorName: 'author', isbn: ['1', '2'], title: 'title' }]),
+    bookService = ({
+      getBooks: jest
+        .fn()
+        .mockReturnValue(
+          new Promise(resolve =>
+            resolve([
+              { authorName: 'author', isbn: ['1', '2'], title: 'title' },
+            ]),
+          ),
         ),
-      );
+      uploadBooks: jest.fn(),
+    } as unknown) as BooksService;
+    controller = new BooksController(bookService);
   });
 
   it('should be defined', () => {
@@ -37,5 +31,12 @@ describe('Books Controller', () => {
     expect(result).toEqual([
       { authorName: 'author', isbn: ['1', '2'], title: 'title' },
     ]);
+  });
+
+  it('should upload the books', async () => {
+    const buffer = Buffer.from('a buffer string');
+
+    await controller.uploadFile({ buffer });
+    expect(bookService.uploadBooks).toHaveBeenCalledWith({ buffer });
   });
 });
