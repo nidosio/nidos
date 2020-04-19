@@ -73,13 +73,8 @@ export class BooksService {
       skipEmptyLines: 'greedy',
       complete: async result => {
         const books = result.data.map(book => new BookDto(book));
-        console.log('books.length', books.length);
-
         const { books: validatedBooks, errors } = await validateBooks(books);
-
-        console.log('validatedBooks.length', validatedBooks.length);
-        console.log('errors.length', Object.keys(errors).length);
-
+        console.error(errors);
         await this.booksRepository.save(validatedBooks, { chunk: 1000 });
       },
     });

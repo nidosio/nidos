@@ -14,7 +14,7 @@ Start local database
 docker-compose up -d
 ```
 
-Insert following environment variables into `.env`
+Insert following environment variables into `.env`, or rename `.env.example` to `.env`
 
 ```env
 DB_PORT=5432
