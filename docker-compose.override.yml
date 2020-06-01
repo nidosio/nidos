@@ -2,12 +2,21 @@
 version: '3.7'
 
 services:
-  backend:
+  nidos-backend:
     build:
       context: ./
       target: development
       dockerfile: backend/Dockerfile
     volumes:
       - ./backend/src:/usr/src/app/src
+      - ./interfaces:/usr/src/interfaces
+      - /usr/src/app/node_modules
+  nidos-frontend:
+    build:
+      context: ./
+      target: build
+      dockerfile: frontend/Dockerfile
+    volumes:
+      - ./frontend/src:/usr/src/app/src
       - ./interfaces:/usr/src/interfaces
       - /usr/src/app/node_modules

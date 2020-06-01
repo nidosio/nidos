@@ -1,9 +1,11 @@
 version: '3.7'
 
 services:
-  backend:
-    container_name: backend
-    image: backend
-    command: npm run start:dev
-    ports:
-      - "80:80"
+  nidos-backend:
+    container_name: nidos-backend
+    image: nidos-backend
+    command: yarn run start:dev
+  nidos-frontend:
+    container_name: nidos-frontend
+    image: nidos-frontend
+    command: yarn run start
