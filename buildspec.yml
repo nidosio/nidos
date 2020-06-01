@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Building images via docker-compose...
+      - docker-compose build
+      - docker save backend | gzip -c > backend.tar.gz #  Saved in an s3 bucket and later used in deployment.
+artifacts:
+  files: # Artifacts that are copied to EC2 during deployment.
+    - start-service.sh
+    - stop-service.sh
+    - docker-compose.yml
+    - backend.tar.gz
+    - appspec.yml

@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  backend:
+    container_name: backend
+    image: backend
+    command: npm run start:dev
+    ports:
+      - "80:80"

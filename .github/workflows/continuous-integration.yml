@@ -1,0 +1,26 @@
+name: Nidos Continuous Integration
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  ci_backend:
+    runs-on: ubuntu-latest
+    env:
+      backend-directory: ./backend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build backend
+        working-directory: ${{ env.backend-directory }}
+        run: docker-compose build backend
+      - name: Run backend
+        working-directory: ${{ env.backend-directory }}
+        run: docker-compose up -d backend
+      - name: Audit backend
+        working-directory: ${{ env.backend-directory }}
+        run: docker-compose exec -T backend yarn audit
+      - name: Test backend
+        working-directory: ${{ env.backend-directory }}
+        run: docker-compose exec -T backend yarn run test
+  # @TODO add ci_frontend job && linter step to ci_backend

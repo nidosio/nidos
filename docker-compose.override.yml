@@ -1,0 +1,13 @@
+# Local dev overrides
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: ./
+      target: development
+      dockerfile: backend/Dockerfile
+    volumes:
+      - ./backend/src:/usr/src/app/src
+      - ./interfaces:/usr/src/interfaces
+      - /usr/src/app/node_modules
