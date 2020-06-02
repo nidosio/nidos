@@ -22,5 +22,25 @@ jobs:
         run: docker-compose exec -T nidos-backend yarn audit
       - name: Test backend
         working-directory: ${{ env.backend-directory }}
-        run: docker-compose exec -T nidos-backend yarn run test
-  # @TODO add ci_frontend job && linter step to ci_backend
+        run: docker-compose exec -T nidos-backend yarn test
+  ci_frontend:
+    runs-on: ubuntu-latest
+    env:
+      frontend-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build frontend
+        working-directory: ${{ env.frontend-directory }}
+        run: docker-compose build nidos-frontend
+      - name: Run frontend
+        working-directory: ${{ env.frontend-directory }}
+        run: docker-compose up -d nidos-frontend
+      - name: Audit frontend
+        working-directory: ${{ env.frontend-directory }}
+        run: docker-compose exec -T nidos-frontend yarn audit
+      - name: Test frontend
+        working-directory: ${{ env.frontend-directory }}
+        run: docker-compose exec -T nidos-frontend yarn test
+      - name: Lint frontend
+        working-directory: ${{ env.frontend-directory }}
+        run: docker-compose exec -T nidos-frontend yarn lint
