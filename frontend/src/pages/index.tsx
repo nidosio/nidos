@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import Head from 'next/head'
+import React, { ReactElement } from 'react';
+import Head from 'next/head';
 
 export default function Home(): ReactElement {
   return (
@@ -53,5 +53,5 @@ export default function Home(): ReactElement {
         }
       `}</style>
     </div>
-  )
+  );
 }

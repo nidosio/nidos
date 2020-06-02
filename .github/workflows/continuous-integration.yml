@@ -13,14 +13,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build backend
         working-directory: ${{ env.backend-directory }}
-        run: docker-compose build backend
+        run: docker-compose build nidos-backend
       - name: Run backend
         working-directory: ${{ env.backend-directory }}
-        run: docker-compose up -d backend
+        run: docker-compose up -d nidos-backend
       - name: Audit backend
         working-directory: ${{ env.backend-directory }}
-        run: docker-compose exec -T backend yarn audit
+        run: docker-compose exec -T nidos-backend yarn audit
       - name: Test backend
         working-directory: ${{ env.backend-directory }}
-        run: docker-compose exec -T backend yarn run test
+        run: docker-compose exec -T nidos-backend yarn run test
   # @TODO add ci_frontend job && linter step to ci_backend

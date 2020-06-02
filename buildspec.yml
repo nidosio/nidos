@@ -5,11 +5,16 @@ phases:
     commands:
       - echo Building images via docker-compose...
       - docker-compose build
-      - docker save backend | gzip -c > backend.tar.gz #  Saved in an s3 bucket and later used in deployment.
+       #  Docker images are saved in a s3 bucket and later used in deployment.
+      - docker save nidos-backend | gzip -c > nidos-backend.tar.gz
+      - docker save nidos-frontend | gzip -c > nidos-frontend.tar.gz
+      - docker save nidos-nginx | gzip -c > nidos-nginx.tar.gz
 artifacts:
   files: # Artifacts that are copied to EC2 during deployment.
     - start-service.sh
     - stop-service.sh
     - docker-compose.yml
-    - backend.tar.gz
+    - nidos-backend.tar.gz
+    - nidos-frontend.tar.gz
+    - nidos-nginx.tar.gz
     - appspec.yml
