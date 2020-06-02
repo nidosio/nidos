@@ -20,3 +20,7 @@ services:
       - ./frontend/src:/usr/src/app/src
       - ./interfaces:/usr/src/interfaces
       - /usr/src/app/node_modules
+  nidos-nginx:
+    build:
+      context: ./
+      dockerfile: nginx/Dockerfile

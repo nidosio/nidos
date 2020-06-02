@@ -9,3 +9,11 @@ services:
     container_name: nidos-frontend
     image: nidos-frontend
     command: yarn run start
+  nidos-nginx:
+    image: nidos-nginx
+    container_name: nidos-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - nidos-frontend
+      - nidos-backend
