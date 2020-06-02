@@ -1,6 +1,7 @@
-import Head from 'next/head'
+import React, { ReactElement } from 'react';
+import Head from 'next/head';
 
-export default function Home() {
+export default function Home(): ReactElement {
   return (
     <div className="container">
       <Head>
@@ -9,9 +10,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">
-          Nidos
-        </h1>
+        <h1 className="title">Nidos</h1>
       </main>
 
       <style jsx>{`
@@ -45,9 +44,8 @@ export default function Home() {
         body {
           padding: 0;
           margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+            Droid Sans, Helvetica Neue, sans-serif;
         }
 
         * {
@@ -55,5 +53,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }

@@ -4,7 +4,7 @@ services:
   nidos-backend:
     container_name: nidos-backend
     image: nidos-backend
-    command: yarn run start:dev
+    command: yarn start
   nidos-frontend:
     container_name: nidos-frontend
     image: nidos-frontend
