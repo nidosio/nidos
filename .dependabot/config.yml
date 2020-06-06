@@ -1,0 +1,17 @@
+version: 1
+update_configs:
+  - package_manager: "javascript"
+    directory: "/"
+    update_schedule: "weekly"
+    default_labels:
+      - "dependency"
+  - package_manager: "javascript"
+    directory: "/frontend"
+    update_schedule: "weekly"
+    default_labels:
+      - "dependency"
+  - package_manager: "javascript"
+    directory: "/backend"
+    update_schedule: "weekly"
+    default_labels:
+      - "dependency"
