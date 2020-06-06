@@ -13,6 +13,6 @@ COPY /frontend ./
 
 RUN yarn
 
-RUN yarn run build
+RUN yarn build
 
-CMD ["yarn", "run", "start"]
+CMD ["yarn", "start"]
