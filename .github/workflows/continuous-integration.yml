@@ -22,5 +22,5 @@ jobs:
         run: docker-compose exec -T nidos-backend yarn audit
       - name: Test backend
         working-directory: ${{ env.backend-directory }}
-        run: docker-compose exec -T nidos-backend yarn run test
+        run: docker-compose exec -T nidos-backend yarn test
   # @TODO add ci_frontend job && linter step to ci_backend
