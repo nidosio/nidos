@@ -1,0 +1,18 @@
+{
+  "name": "nidos",
+  "version": "1.0.0",
+  "description": "nidos.io",
+  "repository": "git@github.com:nidosio/nidos.git",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "audit:packages": "lerna exec yarn audit",
+    "build": "lerna run build",
+    "install": "lerna exec yarn install --concurrency 1",
+    "lint": "lerna run lint",
+    "test": "lerna run test"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.0"
+  }
+}
