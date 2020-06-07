@@ -12,6 +12,11 @@ services:
       - ./interfaces:/usr/src/interfaces
       - /usr/src/app/node_modules
     command: yarn start:dev
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
   nidos-frontend:
     build:
       context: ./
@@ -26,3 +31,9 @@ services:
     build:
       context: ./
       dockerfile: nginx/Dockerfile
+  nidos-db:
+    container_name: nidos-db
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USERNAME}
