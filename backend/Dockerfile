@@ -12,7 +12,7 @@ RUN yarn
 
 COPY /backend .
 
-RUN yarn run build
+RUN yarn build
 
 FROM node:12.13-alpine as production
 
