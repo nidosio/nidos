@@ -1,4 +1,5 @@
 module.exports = {
+  moduleDirectories: ['node_modules', 'src'],
   roots: ['<rootDir>'],
   moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
   testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules|.next)[/\\\\]'],
