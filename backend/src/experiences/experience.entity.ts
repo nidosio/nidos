@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
 
-import { Theme } from '../theme/theme.entity';
+import { Theme } from '../themes/theme.entity';
 
 @Entity()
 export class Experience {
@@ -8,14 +8,23 @@ export class Experience {
   id: string;
 
   @Column()
-  name: string;
+  title: string;
 
-  @ManyToOne(() => Theme, (theme) => theme.experiences, { nullable: false })
-  theme: Theme[];
+  @Column()
+  author: string;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', update: false, select: false })
+  @Column()
+  takeaway: string;
+
+  @Column()
+  description: string;
+
+  @ManyToMany(() => Theme, (theme) => theme.experiences, { nullable: false })
+  themes: Theme[];
+
+  @CreateDateColumn({ type: 'timestamp with time zone' })
   created: Date;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', select: false })
+  @UpdateDateColumn({ type: 'timestamp with time zone' })
   updated: Date;
 }
