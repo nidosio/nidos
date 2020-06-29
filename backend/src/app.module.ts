@@ -3,13 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ormOptions } from './db';
-import { ThemeModule } from './theme/theme.module';
+import { ThemesModule } from './themes/themes.module';
 import { ExperiencesModule } from './experiences/experiences.module';
 
 @Module({
   controllers: [AppController],
-  imports: [TypeOrmModule.forRoot(ormOptions), ThemeModule, ExperiencesModule],
+  imports: [TypeOrmModule.forRoot(), ThemesModule, ExperiencesModule],
   providers: [AppService],
 })
 export class AppModule {}
