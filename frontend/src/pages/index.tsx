@@ -1,44 +1,21 @@
 import React, { ReactElement } from 'react';
 import Head from 'next/head';
+import DefaultLayout from 'components/layouts/DefaultLayout';
+import LandingCard from 'components/landing-page/LandingCard/LandingCard';
 
 export default function Home(): ReactElement {
   return (
-    <div className="container">
+    <div>
       <Head>
         <title>Nidos</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1 className="title">Nidos</h1>
-      </main>
+      <DefaultLayout>
+        <LandingCard />
+      </DefaultLayout>
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-      `}</style>
-
+      {/* @TODO move global styles to a more common place */}
       <style jsx global>{`
         html,
         body {
