@@ -20,6 +20,7 @@ const StyledList = styled.ul`
   list-style: none;
   max-height: ${spacing[10]};
   overflow: scroll;
+  position: absolute;
 `;
 
 interface ListItemProps {
@@ -35,6 +36,10 @@ const StyledListItem = styled.li<ListItemProps>`
   }
 `;
 
+const StyledListContainer = styled.div`
+  position: relative;
+`;
+
 const AutoCompleteList: FC<Props> = ({
   isOpen,
   getMenuProps,
@@ -42,14 +47,16 @@ const AutoCompleteList: FC<Props> = ({
   highlightedIndex,
   suggestedItems,
 }: Props) => (
-  <StyledList {...getMenuProps()}>
-    {isOpen &&
-      suggestedItems.map((item, index) => (
-        <StyledListItem key={index} {...getItemProps({ item, index })} isHighlighted={index === highlightedIndex}>
-          {item.label}
-        </StyledListItem>
-      ))}
-  </StyledList>
+  <StyledListContainer>
+    <StyledList {...getMenuProps()}>
+      {isOpen &&
+        suggestedItems.map((item, index) => (
+          <StyledListItem key={index} {...getItemProps({ item, index })} isHighlighted={index === highlightedIndex}>
+            {item.label}
+          </StyledListItem>
+        ))}
+    </StyledList>
+  </StyledListContainer>
 );
 
 export default AutoCompleteList;
